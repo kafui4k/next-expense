@@ -1,11 +1,43 @@
+import { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-
-import Landing from './landing/landing';
+import { magic } from '../lib/magic-auth'
+import {useRouter} from 'next/router'
 
 const Home: NextPage = () => {
+  const router = useRouter();
+
+  const [email, setEmail] = useState<string>('');
+
+  useEffect(() => {
+    async function getUserData() {
+      // Assumes a user is already logged in
+      try {
+        const {email}: any = await magic?.user.getMetadata();
+        setEmail(email);
+      } catch (error) {
+        // Handle errors if required!
+        console.error("Error fetching user", error);
+      }
+    }
+    getUserData();
+
+  }, []);
+
+  const handleUserLogout = async () => {
+    try {
+      const isNotLoggedIn = await magic?.user.logout();
+
+      if (isNotLoggedIn) {
+        // route to dashboard
+        router.push("/login");
+      }
+    } catch {
+      // Handle errors if required!
+    }
+  }
+  
   return (
     <div className={styles.container}>
       <Head>
@@ -13,14 +45,14 @@ const Home: NextPage = () => {
         <meta name="description" content="Keep track of your expenses" />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,900&display=swap" rel="stylesheet"></link>
       </Head>
 
-      <main className={styles.main}>
-        <Landing />
+      <main>
+        <h1>Welcome: {email}</h1>
+
+        <button onClick={handleUserLogout}>
+          Logout
+        </button>
       </main>
     </div>
   )

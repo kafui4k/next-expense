@@ -2,14 +2,16 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 export const ButtonC = styled.button`
-    display: inline-block;
+    display: block;
     padding: 10px;
     border-radius: 5px;
-    border: none;
+    border: 1px solid white;
     height: 50px;
-    width: 50%;
-    background: #373B64;
+    width: 100%;
+    background: transparent;
     color: white;
+    text-align: start;
+    cursor: pointer;
 `;
 
 function Button({children}: any) {
