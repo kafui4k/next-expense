@@ -107,7 +107,7 @@ const Login = () => {
             <main className={styles.main}>
                 <div className={styles.left}>
                     <h1>
-                        <Image src="/static/expensify-iconmark-reversed.svg" width={50} height={50} />
+                        <Image src="/static/expensify-iconmark-reversed.svg" width={50} height={50} alt="expensify mark" />
                         <p className={styles.headerText}>Welcome! How would you like to connect?</p>
                     </h1>
                     <div className={styles.authInputFields}>
@@ -162,23 +162,23 @@ const Login = () => {
                                     <button className={styles.button} onClick={handleSwitchToEmailLogin}>
                                         <div className={styles.buttonTextWithIcon}>
                                             Email
-                                            <Image src="/static/chevron-right.svg" width={30} height={30} color="white" />
+                                            <Image src="/static/chevron-right.svg" width={30} height={30} color="white" alt="chevron icon" />
                                         </div>
                                     </button>
                                     <Button>
                                         <div className={styles.buttonTextWithIcon}>
                                             Phone Number
-                                            <Image src="/static/chevron-right.svg" width={30} height={30} color="white" />
+                                            <Image src="/static/chevron-right.svg" width={30} height={30} color="white" alt="chevron icon" />
                                         </div>
                                     </Button><Button>
                                         <div className={styles.buttonTextWithIcon}>
                                             Google
-                                            <Image src="/static/chevron-right.svg" width={30} height={30} color="white" />
+                                            <Image src="/static/chevron-right.svg" width={30} height={30} color="white" alt="chevron icon" />
                                         </div>
                                     </Button><Button>
                                         <div className={styles.buttonTextWithIcon}>
                                             Apple
-                                            <Image src="/static/chevron-right.svg" width={30} height={30} color="white" />
+                                            <Image src="/static/chevron-right.svg" width={30} height={30} color="white" alt="chevron icon" />
                                         </div>
                                     </Button>
                                 </>

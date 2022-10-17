@@ -1,6 +1,37 @@
+.container {
+  display: flex;
+}
+
 .main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
+  position: relative;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
   }
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+  
+.contentContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1rem;
+  background: rgb(255, 255, 255);
+  margin-top: 1rem;
+  border-radius: 10px;
+  width: 900px;
+  height: 400px;
+}
