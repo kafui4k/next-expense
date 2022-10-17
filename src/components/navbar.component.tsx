@@ -106,7 +106,9 @@ const NavBarComponent = ({ heading }: any) => {
                           selected={index === selectedIndex}
                           onClick={(event) => handleMenuItemClick(event, index)}
                         >
-                          {option}
+                          <a onClick={() => alert("call the modal component")}>
+                            {option}
+                          </a>
                         </MenuItem>
                       ))}
                     </MenuList>
