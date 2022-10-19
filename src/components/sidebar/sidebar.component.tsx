@@ -23,7 +23,7 @@ import {
   NavDropdown,
 } from "./sidebar.styles";
 
-import { magic } from "../lib/magic-auth";
+import { magic } from "../../lib/magic-auth";
 
 const SideBarComponent = ({ children }: any) => {
   const router = useRouter();
@@ -55,7 +55,7 @@ const SideBarComponent = ({ children }: any) => {
       <SidebarAvatar>
         <SideBarAvatarGroup>
           <Avatar
-            sx={{ bgcolor: "turquoise", width: 50, height: 50 }}
+            sx={{ bgcolor: "turquoise", width: 80, height: 80 }}
             alt={username && username}
             src={avatarUrl}
           >

@@ -5,9 +5,9 @@ import styles from "../styles/Home.module.css";
 import { magic } from "../lib/magic-auth";
 import { useRouter } from "next/router";
 
-import SideBarComponent from "../components/sidebar.component";
-import NavBarComponent from "../components/navbar.component";
-import { FooterComponent } from "../components/footer.component";
+import SideBarComponent from "../components/sidebar/sidebar.component";
+import NavBarComponent from "../components/navbar/navbar.component";
+import { FooterComponent } from "../components/footer/footer.component";
 
 const Home: NextPage = () => {
   const router = useRouter();

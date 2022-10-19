@@ -2,9 +2,10 @@ import styled from "@emotion/styled"
 
 export const SideBar = styled.div`
     display: flex;
-    width: 20%;
+    width: 280px;
     padding: 20px;
     flex-direction: column;
+    gap: 3rem;
     background: #0B1B34;
     height: 100vh;
     color: whitesmoke;
@@ -40,6 +41,13 @@ export const NavItemsWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 3rem;
+    font-size: 12px;
+    font-weight: bold;
+    color: #e0ded9;
+
+    &:hover {
+        color: #FFF;
+    }
 `;
 
 export const InnboxWrapper = styled.div`
@@ -70,7 +78,10 @@ export const Footer = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
+  justify-content: center;
+  left: 4.5rem;
   bottom: 0;
+  font-size: 11px;
 `;
 
 export const NavDropdown = styled.div`

@@ -1,11 +1,12 @@
 import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import NavBarComponent from "../../components/navbar.component";
-import SideBarComponent from "../../components/sidebar.component";
+import NavBarComponent from "../../components/navbar/navbar.component";
+import SideBarComponent from "../../components/sidebar/sidebar.component";
 
 import styles from "../../styles/Home.module.css";
-import { FooterComponent } from "../../components/footer.component";
+import { FooterComponent } from "../../components/footer/footer.component";
+import ModalComponent from "../../components/modal/modal.component";
 
 const Expenses = () => {
   const [expenses, setExpenses] = useState("");
@@ -51,6 +52,8 @@ const Expenses = () => {
                   </span>
                 </div>
               </div>
+
+              {/* <ModalComponent index={0} /> */}
 
               <FooterComponent />
             </div>
