@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -53,11 +53,15 @@ function a11yProps(index: number) {
   };
 }
 
-interface ModalComponentProps {
+type ModalComponentProps = {
   index: number;
-}
+  setDisplayModalComponent: any;
+};
 
-const ModalComponent = ({ index }: ModalComponentProps) => {
+const ModalComponent = ({
+  index,
+  setDisplayModalComponent,
+}: ModalComponentProps) => {
   const [open, setOpen] = useState(true);
   const [value, setValue] = useState(index);
 
@@ -69,8 +73,13 @@ const ModalComponent = ({ index }: ModalComponentProps) => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    if (open === false) {
+      setDisplayModalComponent(false);
+    }
+  });
+
   return (
-    // <div style={{ display: "block" }}>
     <Modal
       open={open}
       onClose={handleClose}
@@ -92,7 +101,7 @@ const ModalComponent = ({ index }: ModalComponentProps) => {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <ExpenseComponent />
+          <ExpenseComponent setOpen={setOpen} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           Distance
@@ -105,7 +114,6 @@ const ModalComponent = ({ index }: ModalComponentProps) => {
         </TabPanel>
       </Box>
     </Modal>
-    // </div>
   );
 };
 

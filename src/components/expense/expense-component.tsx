@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { RootState } from "../../redux/store";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -59,13 +60,31 @@ const categories = [
   },
 ];
 
-function ExpenseComponent() {
+const reports = [
+  {
+    value: "yes",
+  },
+  {
+    value: "no",
+  },
+];
+
+type ExpenseComponentProps = {
+  setOpen: any;
+};
+
+function ExpenseComponent({ setOpen }: ExpenseComponentProps) {
   const dispatch = useDispatch();
+  const router = useRouter();
+
   const [merchantName, setMerchantName] = useState("");
   const [date, setDate] = useState("");
   const [total, setTotal] = useState();
   const [currency, setCurrency] = useState("EUR");
   const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [report, setReport] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleMerchantNameChange = (e: {
     preventDefault: () => void;
@@ -77,17 +96,12 @@ function ExpenseComponent() {
   };
 
   const handleDateChange = (e: {
-    preventDefault: () => void;
     target: { value: React.SetStateAction<string> };
   }) => {
-    e.preventDefault();
-
     setDate(e.target.value);
   };
 
   const handleTotalChange = (e: any) => {
-    e.preventDefault();
-
     setTotal(e.target.value);
   };
 
@@ -99,16 +113,62 @@ function ExpenseComponent() {
     setCategory(event.target.value);
   };
 
-  const handleMerchantChange = (e: any) => {
+  const handleDescriptionChange = (e: any) => {
+    setDescription(e.target.value);
+  };
+
+  const handleReportChange = (e: any) => {
+    setReport(e.target.value);
+  };
+
+  const onFormSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(e.target.value);
+  };
+
+  const handleAddExpenseSubmit = async (e: { preventDefault: () => void }) => {
+    if (merchantName && date && total && currency) {
+      setIsSaving(!isSaving);
+
+      try {
+        const reponse = await fetch("/api/addExpense", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            merchant_name: merchantName,
+            date,
+            total: parseFloat(total),
+            currency,
+            category,
+            description,
+            report,
+          }),
+        });
+
+        const data = await reponse.json();
+
+        if (data) {
+          setIsSaving(false);
+          setOpen(false);
+          router.push("/expenses");
+        } else {
+          setIsSaving(false);
+        }
+      } catch (error) {
+        console.error("Error adding new expense ", error);
+      }
+    } else {
+      console.error("Empty parameters provided, please try again.");
+    }
   };
 
   return (
     <Container>
       <UpperColumn>
         <LeftContainer>
-          <form>
+          <form onSubmit={onFormSubmit}>
             <div
               className="form-group"
               style={{
@@ -210,6 +270,7 @@ function ExpenseComponent() {
               <TextField
                 id="outlined-select-currency"
                 select
+                name="currency"
                 value={currency}
                 onChange={handleChange}
                 size="small"
@@ -240,7 +301,6 @@ function ExpenseComponent() {
                 }}
               >
                 <Label htmlFor="category">Category</Label>
-                <span style={{ lineHeight: "1rem" }}>*</span>
               </div>
               <TextField
                 sx={{ width: "200px" }}
@@ -279,14 +339,13 @@ function ExpenseComponent() {
                 }}
               >
                 <Label htmlFor="merchant">Description</Label>
-                <span style={{ lineHeight: "1rem" }}>*</span>
               </div>
               <TextField
                 type="text"
                 name="description"
                 id="description"
-                value=""
-                onChange={(e) => console.log(e.target.value)}
+                value={description}
+                onChange={handleDescriptionChange}
                 placeholder="Description"
                 size="small"
                 variant="outlined"
@@ -311,20 +370,19 @@ function ExpenseComponent() {
                 }}
               >
                 <Label htmlFor="report">Report</Label>
-                <span style={{ lineHeight: "1rem" }}>*</span>
               </div>
               <TextField
                 sx={{ width: "200px" }}
                 select
-                value={category}
-                onChange={handleCategoryChange}
+                value={report}
+                onChange={handleReportChange}
                 size="small"
                 name="report"
                 id="report"
                 placeholder="Type to Search"
                 variant="outlined"
               >
-                {categories.map((option) => (
+                {reports.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.value}
                   </MenuItem>
@@ -332,10 +390,8 @@ function ExpenseComponent() {
               </TextField>
             </div>
 
-            <LowerColumnSubmitButton
-              onClick={() => console.log("save the data")}
-            >
-              Save
+            <LowerColumnSubmitButton onClick={handleAddExpenseSubmit}>
+              {isSaving && isSaving ? "Saving..." : "Save"}
             </LowerColumnSubmitButton>
           </form>
         </LeftContainer>
@@ -349,14 +405,7 @@ function ExpenseComponent() {
           <AddReceiptButtonIcon>+</AddReceiptButtonIcon>
         </RightContainer>
       </UpperColumn>
-      <LowerColumn>
-        {/* <LowerColumnSubmitButton
-          type="submit"
-          onClick={() => console.log("save the data")}
-        >
-          Save
-        </LowerColumnSubmitButton> */}
-      </LowerColumn>
+      <LowerColumn></LowerColumn>
     </Container>
   );
 }

@@ -33,21 +33,12 @@ const NavBarComponent = ({ heading }: any) => {
     setSelectedIndex(index);
     setOpen(false);
 
-    setDisplayModalComponent(!displayModalComponent);
+    setDisplayModalComponent(true);
   };
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
-
-  // useEffect(() => {
-  //   if (displayModalComponent)
-  //     [
-  //       setTimeout(() => {
-  //         setDisplayModalComponent(false);
-  //       }, 5000),
-  //     ];
-  // }, []);
 
   return (
     <NavBar>
@@ -143,7 +134,10 @@ const NavBarComponent = ({ heading }: any) => {
             )}
           </Popper>
           {displayModalComponent && displayModalComponent ? (
-            <ModalComponent index={selectedIndex} />
+            <ModalComponent
+              index={selectedIndex}
+              setDisplayModalComponent={setDisplayModalComponent}
+            />
           ) : null}
         </>
       )}
