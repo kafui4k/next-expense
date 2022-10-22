@@ -1,10 +1,12 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { store } from '../redux/store';
-import { Provider } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { magic } from '../lib/magic-auth';
-import { useRouter } from 'next/router';
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import { store } from "../redux/store";
+import { Provider } from "react-redux";
+import { useEffect, useState } from "react";
+import { magic } from "../lib/magic-auth";
+import { useRouter } from "next/router";
+
+import LoaderComponent from "../components/loader/loader.componet";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -21,21 +23,23 @@ function MyApp({ Component, pageProps }: AppProps) {
           router.push("/");
         } else {
           // route to log in page
-          setIsLoading(false)
+          setIsLoading(false);
           router.push("/login");
         }
       } catch {
         // Handle errors if required!
       }
     }
-    checkUserIsLoggedIn()
+    checkUserIsLoggedIn();
   }, []);
 
-  return isLoading ? <div>Loading...</div> :  (
+  return isLoading ? (
+    <LoaderComponent />
+  ) : (
     <Provider store={store}>
-       <Component {...pageProps} /> 
+      <Component {...pageProps} />
     </Provider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

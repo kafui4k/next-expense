@@ -28,19 +28,6 @@ const Home: NextPage = () => {
     getUserData();
   }, []);
 
-  const handleUserLogout = async () => {
-    try {
-      const isNotLoggedIn = await magic?.user.logout();
-
-      if (isNotLoggedIn) {
-        // route to dashboard
-        router.push("/login");
-      }
-    } catch {
-      // Handle errors if required!
-    }
-  };
-
   return (
     <div className={styles.container}>
       <Head>
