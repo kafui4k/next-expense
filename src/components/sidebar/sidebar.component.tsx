@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -18,7 +18,6 @@ import {
   SidebarAvatar,
   SideBarAvatarGroup,
   ArrowDownIconContainer,
-  LineWrapper,
   LinkName,
   NavDropdown,
 } from "./sidebar.styles";
@@ -27,11 +26,25 @@ import { magic } from "../../lib/magic-auth";
 
 const SideBarComponent = ({ children }: any) => {
   const router = useRouter();
-  const [username, setUserName] = useState("Kafui Alordo");
+  const [username, setUserName] = useState("");
   const [hideShow, setHideShow] = useState(false);
+  const [email, setEmail] = useState<string>("");
 
-  const avatarUrl =
-    "https://d1wpcgnaa73g0y.cloudfront.net/7e50685729872e06c56c522b2166c3bb54b295ae_128.jpeg";
+  const avatarUrl = "";
+
+  useEffect(() => {
+    async function getUserData() {
+      // Assumes a user is already logged in
+      try {
+        const { email }: any = await magic?.user.getMetadata();
+        setEmail(email);
+      } catch (error) {
+        // Handle errors if required!
+        console.error("Error fetching user", error);
+      }
+    }
+    getUserData();
+  }, []);
 
   const handleShowDropDown = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -56,10 +69,14 @@ const SideBarComponent = ({ children }: any) => {
         <SideBarAvatarGroup>
           <Avatar
             sx={{ bgcolor: "turquoise", width: 80, height: 80 }}
-            alt={username && username}
-            src={avatarUrl}
+            alt={username && username ? username : "place-holder-name"}
+            src={
+              avatarUrl && avatarUrl
+                ? avatarUrl
+                : "/static/expensify-iconmark-reversed.svg"
+            }
           >
-            KA
+            Ex
           </Avatar>
           <ArrowDownIconContainer onClick={handleShowDropDown}>
             <Image
@@ -74,8 +91,12 @@ const SideBarComponent = ({ children }: any) => {
           <NavDropdown>
             <div>
               <div style={{ lineHeight: 0, marginBottom: "1rem" }}>
-                <h4 style={{ fontWeight: "bold" }}>Kafui Alordo</h4>
-                <span style={{ color: "lightgray" }}>kalordo7@gmail.com</span>
+                <h4 style={{ fontWeight: "bold" }}>
+                  {username && username ? username : "N/A"}
+                </h4>
+                <span style={{ color: "lightgray" }}>
+                  {email && email ? email : "N/A"}
+                </span>
               </div>
               <div>
                 <LinkName onClick={handleSignOut}>Sign Out</LinkName>
@@ -84,7 +105,7 @@ const SideBarComponent = ({ children }: any) => {
           </NavDropdown>
         )}
         <Divider light />
-        <h4>{username && username}</h4>
+        <h4>{username && username ? username : "N/A"}</h4>
       </SidebarAvatar>
       <NavItemsWrapper>
         <InnboxWrapper>
